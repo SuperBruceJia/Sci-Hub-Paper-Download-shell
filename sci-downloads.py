@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys
 import getpass
 from scihub import SciHub
