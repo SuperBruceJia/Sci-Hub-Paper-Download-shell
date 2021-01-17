@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-Sci-API Unofficial API
-[Search|Download] research papers from [scholar.google.com|sci-hub.io].
-
-@author zaytoun
-"""
-
 import re
 import argparse
 import hashlib
