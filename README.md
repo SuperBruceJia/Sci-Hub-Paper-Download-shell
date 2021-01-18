@@ -30,13 +30,13 @@ U can also add this line to your bashrc or zshrc files.
 3. Download a Paper or Papers
 
 ```shell
-sci https://ieeexplore.ieee.org/document/9253626                       
+sci https://ieeexplore.ieee.org/document/9253626
 ```
 
 or 
 
 ```shell
-sci https://ieeexplore.ieee.org/document/9253626 https://ieeexplore.ieee.org/document/9270005 https://ieeexplore.ieee.org/document/9256286                           
+sci https://ieeexplore.ieee.org/document/9253626 https://ieeexplore.ieee.org/document/9270005 https://ieeexplore.ieee.org/document/9256286
 ```
 
 You can input one or more papers separated by space.
