@@ -27,7 +27,13 @@ U should change the path of `sci-downloads.py` to your own path.
 
 U can also add this line to your bashrc or zshrc files.
 
-3. Download Papers
+3. Download a Paper or Papers
+
+```shell
+sci https://ieeexplore.ieee.org/document/9253626                       
+```
+
+or 
 
 ```shell
 sci https://ieeexplore.ieee.org/document/9253626 https://ieeexplore.ieee.org/document/9270005 https://ieeexplore.ieee.org/document/9256286                           
