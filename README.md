@@ -23,7 +23,11 @@ pip install urllib3
 alias sci='python You-Own-Path-to-this-Python-File/sci-downloads.py '
 ```
 
-&nbsp; &nbsp; a. You should change the path of `sci-downloads.py` to your own path.
+&nbsp; &nbsp; a. You should change the path of `sci-downloads.py` to your own path. For example, I put this python file in the `/Users/shuyuej/Desktop/Codes` Folder, so I'll input the following command in my terminal:
+
+```shell
+alias sci='python /Users/shuyuej/Desktop/Codes/sci-downloads.py '
+```
 
 &nbsp; &nbsp; b. You can also add this line to your bashrc or zshrc files.
 
