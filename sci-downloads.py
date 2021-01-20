@@ -9,5 +9,5 @@ user = str(getpass.getuser())
 
 for i in range(1, len(sys.argv)):
     name = str(sys.argv[i])
-    result = sh.download(name, path='/Users/' + user + '/Desktop/' + str(i) + '.pdf')
+    result = sh.download(name, path='/Users/' + user + '/Desktop/' + name + '.pdf')
 
