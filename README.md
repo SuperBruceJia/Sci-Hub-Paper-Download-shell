@@ -25,9 +25,7 @@ So, I used Sci-Hub.py and used shell to download the papers. It is fast and conv
 
 &nbsp; &nbsp; a. You should change the path of `sci-downloads.py` to your own path. For example, I put this python file in the `/Users/shuyuej/Desktop/Codes` Folder, so I'll input the following command in my terminal:
 
-    ```shell
     alias sci='python /Users/shuyuej/Desktop/Codes/sci-downloads.py '
-    ```
 
 &nbsp; &nbsp; ***Kindly remind that in Python, the folders should be separated using `/` or `\\`.***
 
@@ -35,37 +33,29 @@ So, I used Sci-Hub.py and used shell to download the papers. It is fast and conv
 
 &nbsp; &nbsp; c. If u are using a Windows OS, u can open your GitHub CLI Terminal, then
 
-    ```shell
     vi ~/.bash_profile
-    ```
 
 &nbsp; &nbsp; then, input `i` in your keyboard:
 
-    ```shell
     alias sci='python You-Own-Path-to-this-Python-File/sci-downloads.py '
-    ```
 
 &nbsp; &nbsp; then, click `esc`, and `:wq` to close Terminal.
 
 &nbsp; &nbsp; Finally, input:
 
-    ```shell
     source ~/.bash_profile
-    ```
 
 &nbsp; &nbsp; Then, the `sci` command could use permanently.
     
 3. Download a Paper or Papers
-
+    
     ```shell
     sci https://ieeexplore.ieee.org/document/9253626
     ```
-
+    
 &nbsp; &nbsp; or 
 
-    ```shell
     sci https://ieeexplore.ieee.org/document/9253626 https://ieeexplore.ieee.org/document/9270005 https://ieeexplore.ieee.org/document/9256286
-    ```
 
 &nbsp; &nbsp; You can input one or more papers separated by space.
 
