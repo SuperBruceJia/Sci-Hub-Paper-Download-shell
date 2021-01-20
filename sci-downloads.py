@@ -10,12 +10,8 @@ sh = SciHub()
 user = str(getpass.getuser())
 
 for i in range(1, len(sys.argv)):
-    k = i
-    name = str(sys.argv[i])
-    PATH = '/Users/' + user + '/Desktop/paper' + str(i) + '.pdf'
-
-    while os.path.exists(PATH) is True:
-        k += 1
-        PATH = '/Users/' + user + '/Desktop/paper' + str(k) + '.pdf'
-
-    sh.download(name, path=PATH)
+    # identifier can be link URL, DOI, or PMID
+    identifier = str(sys.argv[i])
+    # PDF Saved Path
+    SAVE_PATH = '/Users/' + user + '/Desktop/'
+    sh.download(identifier=identifier, path=SAVE_PATH)
