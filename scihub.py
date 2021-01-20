@@ -124,7 +124,10 @@ class SciHub(object):
         limit has been reached.
         """
         data = self.fetch(identifier)
-        _, _, name = data['name'].partition('-')
+        if '-' in data['name']:
+            _, _, name = data['name'].partition('-')
+        else:
+            name = data['name']
 
         if '.pdf' not in name:
             name += '.pdf'
