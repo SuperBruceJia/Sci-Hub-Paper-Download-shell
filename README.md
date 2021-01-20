@@ -60,15 +60,16 @@ source ~/.bash_profile
 sci https://ieeexplore.ieee.org/document/9253626
 ```
 
-or 
+&nbsp; &nbsp; or 
 
 ```shell
 sci https://ieeexplore.ieee.org/document/9253626 https://ieeexplore.ieee.org/document/9270005 https://ieeexplore.ieee.org/document/9256286
 ```
 
-You can input one or more papers separated by space.
+&nbsp; &nbsp; You can input one or more papers separated by space.
 
-The papers would be downloaded to `Desktop` in default. 
-If u wanna change the download place, please edit [this file](https://github.com/SuperBruceJia/Sci-Hub-Paper-Download-shell/blob/main/sci-downloads.py) w.r.t. line 10.
+&nbsp; &nbsp; The papers would be downloaded to `Desktop` in default. 
+
+&nbsp; &nbsp; If u wanna change the download place, please edit [this file](https://github.com/SuperBruceJia/Sci-Hub-Paper-Download-shell/blob/main/sci-downloads.py) w.r.t. line 10.
 
 Enjoy your journey! And, go back to Research Work!
