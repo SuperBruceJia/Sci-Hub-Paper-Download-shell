@@ -6,6 +6,7 @@ import sys
 from scihub import SciHub
 
 sh = SciHub()
+# In default, the papers would be downloaded in the Desktop
 SAVE_PATH = os.getcwd() + '/Desktop/'
 
 for i in range(1, len(sys.argv)):
