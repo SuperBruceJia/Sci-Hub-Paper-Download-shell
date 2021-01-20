@@ -26,10 +26,12 @@ So, I used Sci-Hub.py and used shell to download the papers. It is fast and conv
     ```
 
     (1). You should change the path of `sci-downloads.py` to your own path. For example, I put this python file in the `/Users/shuyuej/Desktop/Codes` Folder, so I'll input the following command in my terminal:
-
+    
+    ```shell
     alias sci='python /Users/shuyuej/Desktop/Codes/sci-downloads.py '
-
-    ***Kindly remind that in Python, the folders should be separated using `/` or `\\`.***
+    ```
+    
+    *Kindly remind that in Python, the folders should be separated using `/` or `\\`.*
 
     (2). You can also add this line to your bashrc or zshrc files.
 
