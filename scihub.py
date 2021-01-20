@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import re
@@ -16,12 +17,12 @@ logging.basicConfig()
 logger = logging.getLogger('Sci-Hub')
 logger.setLevel(logging.DEBUG)
 
-#
 urllib3.disable_warnings()
 
 # constants
 SCHOLARS_BASE_URL = 'https://scholar.google.com/scholar'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0'}
+
 
 class SciHub(object):
     """
@@ -149,10 +150,6 @@ class SciHub(object):
                                            '(resolved url %s) due to captcha' % (identifier, url))
                 raise CaptchaNeedException('Failed to fetch pdf with identifier %s '
                                            '(resolved url %s) due to captcha' % (identifier, url))
-                # return {
-                #     'err': 'Failed to fetch pdf with identifier %s (resolved url %s) due to captcha'
-                #            % (identifier, url)
-                # }
             else:
                 return {
                     'pdf': res.content,
@@ -235,65 +232,6 @@ class SciHub(object):
         pdf_hash = hashlib.md5(res.content).hexdigest()
         return '%s-%s' % (pdf_hash, name[-20:])
 
+
 class CaptchaNeedException(Exception):
     pass
-
-def main():
-    sh = SciHub()
-
-    parser = argparse.ArgumentParser(description='SciHub - To remove all barriers in the way of science.')
-    parser.add_argument('-d', '--download', metavar='(DOI|PMID|URL)', help='tries to find and download the paper', type=str)
-    parser.add_argument('-f', '--file', metavar='path', help='pass file with list of identifiers and download each', type=str)
-    parser.add_argument('-s', '--search', metavar='query', help='search Google Scholars', type=str)
-    parser.add_argument('-sd', '--search_download', metavar='query', help='search Google Scholars and download if possible', type=str)
-    parser.add_argument('-l', '--limit', metavar='N', help='the number of search results to limit to', default=10, type=int)
-    parser.add_argument('-o', '--output', metavar='path', help='directory to store papers', default='', type=str)
-    parser.add_argument('-v', '--verbose', help='increase output verbosity', action='store_true')
-    parser.add_argument('-p', '--proxy', help='via proxy format like socks5://user:pass@host:port', action='store', type=str)
-
-    args = parser.parse_args()
-
-    if args.verbose:
-        logger.setLevel(logging.DEBUG)
-    if args.proxy:
-        sh.set_proxy(args.proxy)
-
-    if args.download:
-        result = sh.download(args.download, args.output)
-        if 'err' in result:
-            logger.debug('%s', result['err'])
-        else:
-            logger.debug('Successfully downloaded file with identifier %s', args.download)
-    elif args.search:
-        results = sh.search(args.search, args.limit)
-        if 'err' in results:
-            logger.debug('%s', results['err'])
-        else:
-            logger.debug('Successfully completed search with query %s', args.search)
-        print(results)
-    elif args.search_download:
-        results = sh.search(args.search_download, args.limit)
-        if 'err' in results:
-            logger.debug('%s', results['err'])
-        else:
-            logger.debug('Successfully completed search with query %s', args.search_download)
-            for paper in results['papers']:
-                result = sh.download(paper['url'], args.output)
-                if 'err' in result:
-                    logger.debug('%s', result['err'])
-                else:
-                    logger.debug('Successfully downloaded file with identifier %s', paper['url'])
-    elif args.file:
-        with open(args.file, 'r') as f:
-            identifiers = f.read().splitlines()
-            for identifier in identifiers:
-                result = sh.download(identifier, args.output)
-                if 'err' in result:
-                    logger.debug('%s', result['err'])
-                else:
-                    logger.debug('Successfully downloaded file with identifier %s', identifier)
-
-
-if __name__ == '__main__':
-    main()
-
