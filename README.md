@@ -28,6 +28,7 @@ alias sci='python You-Own-Path-to-this-Python-File/sci-downloads.py '
 ```shell
 alias sci='python /Users/shuyuej/Desktop/Codes/sci-downloads.py '
 ```
+***Kindly remind that in Python, the folders should be separated using `/` or `\\`.***
 
 &nbsp; &nbsp; b. You can also add this line to your bashrc or zshrc files.
 
