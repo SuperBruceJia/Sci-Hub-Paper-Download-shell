@@ -64,6 +64,6 @@ sci https://ieeexplore.ieee.org/document/9253626 https://ieeexplore.ieee.org/doc
 You can input one or more papers separated by space.
 
 The papers would be downloaded to `'/Users/'+ str(user) + '/Desktop/'`. 
-If u wanna change the download place, please edit [this file](https://github.com/SuperBruceJia/Sci-Hub-Paper-Download-shell/blob/main/sci-downloads.py) w.r.t. line 15 and 19.
+If u wanna change the download place, please edit [this file](https://github.com/SuperBruceJia/Sci-Hub-Paper-Download-shell/blob/main/sci-downloads.py) w.r.t. line 16.
 
 Enjoy your journal! And, go back to Research Work!
