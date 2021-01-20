@@ -8,7 +8,7 @@ But, u know, it wasted me a lot of time to open the [Sci-Hub](https://sci-hub.st
 So, I used Sci-Hub.py and used shell to download the papers fastly and conveniently.
 
 ## Tutorial
-1. Download the python packages
+1. Install the python packages
 
 ```python
 pip install retrying
