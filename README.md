@@ -29,13 +29,13 @@ alias sci='python You-Own-Path-to-this-Python-File/sci-downloads.py '
 
 &nbsp; &nbsp; c. If u are using a Windows OS, u can open your GitHub CLI Terminal, then
 
-```
+```shell
 vi ~/.bash_profile
 ```
 
 &nbsp; &nbsp; then, input `i` in your keyboard:
 
-```
+```shell
 alias sci='python You-Own-Path-to-this-Python-File/sci-downloads.py '
 ```
 
@@ -43,7 +43,7 @@ alias sci='python You-Own-Path-to-this-Python-File/sci-downloads.py '
 
 &nbsp; &nbsp; Finally, input:
 
-```
+```shell
 source ~/.bash_profile
 ```
 
