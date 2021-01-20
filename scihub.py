@@ -57,7 +57,8 @@ class SciHub(object):
         if proxy:
             self.sess.proxies = {
                 "http": proxy,
-                "https": proxy, }
+                "https": proxy,
+            }
 
     def _change_base_url(self):
         if not self.available_base_url_list:
@@ -74,6 +75,8 @@ class SciHub(object):
         """
         start = 0
         results = {'papers': []}
+
+        print(results)
 
         while True:
             try:
@@ -114,18 +117,20 @@ class SciHub(object):
             start += 10
 
     @retry(wait_random_min=100, wait_random_max=1000, stop_max_attempt_number=10)
-    def download(self, identifier, destination='', path=None):
+    def download(self, identifier, path=None):
         """
         Downloads a paper from sci-hub given an indentifier (DOI, PMID, URL).
         Currently, this can potentially be blocked by a captcha if a certain
         limit has been reached.
         """
         data = self.fetch(identifier)
+        _, _, name = data['name'].partition('-')
+
+        if '.pdf' not in name:
+            name += '.pdf'
 
         if not 'err' in data:
-            self._save(data['pdf'], os.path.join(destination, path if path else data['name']))
-        
-        return data
+            self._save(data=data['pdf'], path=path + name)
 
     def fetch(self, identifier):
         """
