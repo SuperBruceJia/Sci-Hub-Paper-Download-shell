@@ -1,4 +1,5 @@
-# Sci-Hub-Paper-Download-shell
+# Download Papers through Terminal based on Sci-Hub
+
 This is an easy-to-use and convenient shell command to download papers `FOR FREE` from `Sci-Hub` (Cheers)!
 
 ## Announcement
