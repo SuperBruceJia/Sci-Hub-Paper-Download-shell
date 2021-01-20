@@ -20,13 +20,35 @@ pip install urllib3
 2. Open Terminal
 
 ```shell
-alias sci='python /Users/shuyuej/Desktop/Codes/sci-downloads.py '
+alias sci='python You-Own-Path-to-this-Python-File/sci-downloads.py '
 ```
 
-U should change the path of `sci-downloads.py` to your own path.
+  a. You should change the path of `sci-downloads.py` to your own path.
 
-U can also add this line to your bashrc or zshrc files.
+  b. You can also add this line to your bashrc or zshrc files.
 
+  c. If u are using a Windows OS, u can open your GitHub CLI Terminal, then
+
+```
+vi ~/.bash_profile
+```
+
+  then, input `i` in your keyboard:
+
+```
+alias sci='python You-Own-Path-to-this-Python-File/sci-downloads.py '
+```
+
+  then, click `esc`, and `:wq` to close Terminal.
+
+  Finally, input:
+
+```
+source ~/.bash_profile
+```
+
+Then, the `sci` command could use permanently.
+    
 3. Download a Paper or Papers
 
 ```shell
