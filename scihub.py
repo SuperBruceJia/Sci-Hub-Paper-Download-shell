@@ -194,10 +194,10 @@ class SciHub(object):
             self._change_base_url()
 
         except requests.exceptions.RequestException as e:
-            logger.info(' There is no such article at Sci-Hub for this Website!!')
+            logger.info(' Cannot download it since there is no such resource!!')
 
             return {
-                'err': ' There is no such article at Sci-Hub for this Website!!'
+                'err': ' Cannot download it since there is no such resource!!'
             }
 
     def _get_direct_url(self, identifier):
