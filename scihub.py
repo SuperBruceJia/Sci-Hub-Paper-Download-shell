@@ -17,7 +17,7 @@ from retrying import retry
 
 # log config
 logging.basicConfig()
-logger = logging.getLogger(' From Sci-Hub')
+logger = logging.getLogger(' (From Sci-Hub)')
 logger.setLevel(logging.DEBUG)
 
 # Disable all kinds of warnings
@@ -147,7 +147,7 @@ class SciHub(object):
         limit has been reached.
         """
         data = self.fetch(identifier)
-        if 'name' in data:
+        if 'name' in data or type(data) is None:
             if '-' in data['name']:
                 _, _, name = data['name'].partition('-')
             else:
@@ -159,6 +159,7 @@ class SciHub(object):
             name += '.pdf'
 
         if not 'err' in data:
+            logger.info(' Successfully downloaded this paper (Identifier: %s) !' % identifier)
             self._save(data=data['pdf'], path=path + name)
 
     def fetch(self, identifier):
@@ -170,18 +171,10 @@ class SciHub(object):
 
         try:
             url = self._get_direct_url(identifier)
-
-            # verify=False is dangerous but sci-hub.io 
-            # requires intermediate certificates to verify
-            # and requests doesn't know how to download them.
-            # as a hacky fix, you can add them to your store
-            # and verifying would work. will fix this later.
             res = self.sess.get(url, verify=False)
 
             if res.headers['Content-Type'] != 'application/pdf':
                 self._change_base_url()
-                # logger.info(' Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
-                # raise CaptchaNeedException(' Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
             else:
                 return {
                     'pdf': res.content,
@@ -205,7 +198,6 @@ class SciHub(object):
         Finds the direct source url for a given identifier.
         """
         id_type = self._classify(identifier)
-
         return identifier if id_type == 'url-direct' else self._search_direct_url(identifier)
 
     def _search_direct_url(self, identifier):
@@ -222,10 +214,10 @@ class SciHub(object):
     def _classify(self, identifier):
         """
         Classify the type of identifier:
-        url-direct - openly accessible paper
-        url-non-direct - pay-walled paper
-        pmid - PubMed ID
-        doi - digital object identifier
+            url-direct - openly accessible paper
+            url-non-direct - pay-walled paper
+            pmid - PubMed ID
+            doi - digital object identifier
         """
         if identifier.startswith('http') or identifier.startswith('https'):
             if identifier.endswith('pdf'):
