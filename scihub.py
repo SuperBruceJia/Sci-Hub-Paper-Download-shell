@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Import necessary packages
 import re
 import argparse
 import hashlib
 import logging
 import os
+import random
+import ssl
 
 import requests
 import urllib3
@@ -17,11 +20,35 @@ logging.basicConfig()
 logger = logging.getLogger('Sci-Hub')
 logger.setLevel(logging.DEBUG)
 
+# Disable all kinds of warnings
 urllib3.disable_warnings()
+
+# Avoid SSL Certificate to access the HTTP website
+ssl._create_default_https_context = ssl._create_unverified_context
+
+# A fake device to avoid the Anti reptile
+USER_AGENTS = [
+    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
+    "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Acoo Browser; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506)",
+    "Mozilla/4.0 (compatible; MSIE 7.0; AOL 9.5; AOLBuild 4337.35; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
+    "Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)",
+    "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 2.0.50727; Media Center PC 6.0)",
+    "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322)",
+    "Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)",
+    "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.3 (Change: 287 c9dfb30)",
+    "Mozilla/5.0 (X11; U; Linux; en-US) AppleWebKit/527+ (KHTML, like Gecko, Safari/419.3) Arora/0.6",
+    "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2pre) Gecko/20070215 K-Ninja/2.1.1",
+    "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9) Gecko/20080705 Firefox/3.0 Kapiko/3.0",
+    "Mozilla/5.0 (X11; Linux i686; U;) Gecko/20070322 Kazehakase/0.4.5",
+    "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.8) Gecko Fedora/1.9.0.8-1.fc10 Kazehakase/0.5.6",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20",
+    "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
+]
 
 # constants
 SCHOLARS_BASE_URL = 'https://scholar.google.com/scholar'
-HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0'}
+HEADERS = {'User-Agent': USER_AGENTS[random.randint(0, len(USER_AGENTS)-1)]}
 
 
 class SciHub(object):
@@ -51,8 +78,6 @@ class SciHub(object):
     def set_proxy(self, proxy):
         '''
         set proxy for session
-        :param proxy_dict:
-        :return:
         '''
         if proxy:
             self.sess.proxies = {
@@ -65,9 +90,9 @@ class SciHub(object):
             raise Exception('Ran out of valid sci-hub urls')
         del self.available_base_url_list[0]
         self.base_url = self.available_base_url_list[0] + '/'
-        logger.info("I'm changing to {}".format(self.available_base_url_list[0]))
+        logger.info("Changing to {}".format(self.available_base_url_list[0]))
 
-    def search(self, query, limit=10, download=False):
+    def search(self, query, limit=20, download=False):
         """
         Performs a query on scholar.google.com, and returns a dictionary
         of results in the form {'papers': ...}. Unfortunately, as of now,
@@ -75,8 +100,6 @@ class SciHub(object):
         """
         start = 0
         results = {'papers': []}
-
-        print(results)
 
         while True:
             try:
@@ -124,10 +147,13 @@ class SciHub(object):
         limit has been reached.
         """
         data = self.fetch(identifier)
-        if '-' in data['name']:
-            _, _, name = data['name'].partition('-')
+        if 'name' in data:
+            if '-' in data['name']:
+                _, _, name = data['name'].partition('-')
+            else:
+                name = data['name']
         else:
-            name = data['name']
+            name = str(random.randint(0, 100000))
 
         if '.pdf' not in name:
             name += '.pdf'
@@ -154,10 +180,8 @@ class SciHub(object):
 
             if res.headers['Content-Type'] != 'application/pdf':
                 self._change_base_url()
-                logger.info('Failed to fetch pdf with identifier %s '
-                                           '(resolved url %s) due to captcha' % (identifier, url))
-                raise CaptchaNeedException('Failed to fetch pdf with identifier %s '
-                                           '(resolved url %s) due to captcha' % (identifier, url))
+                logger.info('Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
+                raise CaptchaNeedException('Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
             else:
                 return {
                     'pdf': res.content,
@@ -170,11 +194,10 @@ class SciHub(object):
             self._change_base_url()
 
         except requests.exceptions.RequestException as e:
-            logger.info('Failed to fetch pdf with identifier %s (resolved url %s) due to request exception.'
-                       % (identifier, url))
+            logger.info('There is no such article at Sci-Hub for this Website!!')
+
             return {
-                'err': 'Failed to fetch pdf with identifier %s (resolved url %s) due to request exception.'
-                       % (identifier, url)
+                'err': 'There is no such article at Sci-Hub for this Website!!'
             }
 
     def _get_direct_url(self, identifier):
@@ -183,8 +206,7 @@ class SciHub(object):
         """
         id_type = self._classify(identifier)
 
-        return identifier if id_type == 'url-direct' \
-            else self._search_direct_url(identifier)
+        return identifier if id_type == 'url-direct' else self._search_direct_url(identifier)
 
     def _search_direct_url(self, identifier):
         """
@@ -195,8 +217,7 @@ class SciHub(object):
         s = self._get_soup(res.content)
         iframe = s.find('iframe')
         if iframe:
-            return iframe.get('src') if not iframe.get('src').startswith('//') \
-                else 'http:' + iframe.get('src')
+            return iframe.get('src') if not iframe.get('src').startswith('//') else 'http:' + iframe.get('src')
 
     def _classify(self, identifier):
         """
@@ -206,7 +227,7 @@ class SciHub(object):
         pmid - PubMed ID
         doi - digital object identifier
         """
-        if (identifier.startswith('http') or identifier.startswith('https')):
+        if identifier.startswith('http') or identifier.startswith('https'):
             if identifier.endswith('pdf'):
                 return 'url-direct'
             else:
