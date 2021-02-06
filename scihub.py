@@ -147,7 +147,7 @@ class SciHub(object):
         limit has been reached.
         """
         data = self.fetch(identifier)
-        if 'name' in data or type(data) is None:
+        if 'name' in data:
             if '-' in data['name']:
                 _, _, name = data['name'].partition('-')
             else:
@@ -159,8 +159,19 @@ class SciHub(object):
             name += '.pdf'
 
         if not 'err' in data:
-            logger.info(' Successfully downloaded this paper (Identifier: %s) !' % identifier)
-            self._save(data=data['pdf'], path=path + name)
+            if os.path.exists(path=path+name):
+                # Get a new name if the file exists!
+                name, _, _ = name.partition('.pdf')
+                name += '-'
+                name += str(random.randint(0, 100000))
+                name += '.pdf'
+
+                # Save the file
+                self._save(data=data['pdf'], path=path + name)
+                logger.info(' Successfully downloaded this paper named as %s (Identifier: %s) !' % (name, identifier))
+            else:
+                self._save(data=data['pdf'], path=path + name)
+                logger.info(' Successfully downloaded this paper named as %s (Identifier: %s) !' % (name, identifier))
 
     def fetch(self, identifier):
         """
@@ -168,7 +179,6 @@ class SciHub(object):
         If the indentifier is a DOI, PMID, or URL pay-wall, then use Sci-Hub
         to access and download paper. Otherwise, just download paper directly.
         """
-
         try:
             url = self._get_direct_url(identifier)
             res = self.sess.get(url, verify=False)
@@ -188,7 +198,6 @@ class SciHub(object):
 
         except requests.exceptions.RequestException as e:
             logger.info(' Cannot download it since there is no such resource!!')
-
             return {
                 'err': ' Cannot download it since there is no such resource!!'
             }
