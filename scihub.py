@@ -180,8 +180,8 @@ class SciHub(object):
 
             if res.headers['Content-Type'] != 'application/pdf':
                 self._change_base_url()
-                logger.info(' Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
-                raise CaptchaNeedException(' Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
+                # logger.info(' Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
+                # raise CaptchaNeedException(' Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
             else:
                 return {
                     'pdf': res.content,
