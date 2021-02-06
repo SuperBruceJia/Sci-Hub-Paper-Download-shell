@@ -17,7 +17,7 @@ from retrying import retry
 
 # log config
 logging.basicConfig()
-logger = logging.getLogger('Sci-Hub')
+logger = logging.getLogger(' From Sci-Hub')
 logger.setLevel(logging.DEBUG)
 
 # Disable all kinds of warnings
@@ -90,7 +90,7 @@ class SciHub(object):
             raise Exception('Ran out of valid sci-hub urls')
         del self.available_base_url_list[0]
         self.base_url = self.available_base_url_list[0] + '/'
-        logger.info("Changing to {}".format(self.available_base_url_list[0]))
+        logger.info(" Changing to {}".format(self.available_base_url_list[0]))
 
     def search(self, query, limit=20, download=False):
         """
@@ -105,7 +105,7 @@ class SciHub(object):
             try:
                 res = self.sess.get(SCHOLARS_BASE_URL, params={'q': query, 'start': start})
             except requests.exceptions.RequestException as e:
-                results['err'] = 'Failed to complete search with query %s (connection error)' % query
+                results['err'] = ' Failed to complete search with query %s (connection error)' % query
                 return results
 
             s = self._get_soup(res.content)
@@ -113,7 +113,7 @@ class SciHub(object):
 
             if not papers:
                 if 'CAPTCHA' in str(res.content):
-                    results['err'] = 'Failed to complete search with query %s (captcha)' % query
+                    results['err'] = ' Failed to complete search with query %s (captcha)' % query
                 return results
 
             for paper in papers:
@@ -180,8 +180,8 @@ class SciHub(object):
 
             if res.headers['Content-Type'] != 'application/pdf':
                 self._change_base_url()
-                logger.info('Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
-                raise CaptchaNeedException('Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
+                logger.info(' Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
+                raise CaptchaNeedException(' Failed to fetch pdf with identifier %s (resolved url %s) due to captcha' % (identifier, url))
             else:
                 return {
                     'pdf': res.content,
@@ -190,14 +190,14 @@ class SciHub(object):
                 }
 
         except requests.exceptions.ConnectionError:
-            logger.info('Cannot access {}, changing url'.format(self.available_base_url_list[0]))
+            logger.info(' Cannot access {}, changing url'.format(self.available_base_url_list[0]))
             self._change_base_url()
 
         except requests.exceptions.RequestException as e:
-            logger.info('There is no such article at Sci-Hub for this Website!!')
+            logger.info(' There is no such article at Sci-Hub for this Website!!')
 
             return {
-                'err': 'There is no such article at Sci-Hub for this Website!!'
+                'err': ' There is no such article at Sci-Hub for this Website!!'
             }
 
     def _get_direct_url(self, identifier):
