@@ -14,3 +14,4 @@ for i in range(1, len(sys.argv)):
     identifier = str(sys.argv[i])
     # PDF Saved Path - You should change this to your own path
     sh.download(identifier=identifier, path=SAVE_PATH)
+    print('\n')
