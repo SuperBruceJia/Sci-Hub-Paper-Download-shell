@@ -147,30 +147,43 @@ class SciHub(object):
         limit has been reached.
         """
         data = self.fetch(identifier)
-        if 'name' in data:
-            if '-' in data['name']:
-                _, _, name = data['name'].partition('-')
-            else:
-                name = data['name']
-        else:
-            name = str(random.randint(0, 100000))
 
+        # Get the title of this paper
+        if self.title is not None:
+            name = self.title
+        else:
+            # If there is no title gotten, make a new title
+            if 'name' in data:
+                if '-' in data['name']:
+                    _, _, name = data['name'].partition('-')
+                else:
+                    name = data['name']
+            else:
+                # Randomly make a title
+                name = str(random.randint(0, 100000))
+
+        # Remove all the '/'
+        while '/' in name:
+            loc = name.find('/')
+            name = name[loc+1:]
+
+        # Add a 'pdf' at the end of the title
         if '.pdf' not in name:
             name += '.pdf'
 
         if not 'err' in data:
+            # Get a new name if the file exists!
             if os.path.exists(path=path+name):
-                # Get a new name if the file exists!
                 name, _, _ = name.partition('.pdf')
                 name += '-'
                 name += str(random.randint(0, 100000))
                 name += '.pdf'
 
                 # Save the file
-                self._save(data=data['pdf'], path=path + name)
+                self._save(data=data['pdf'], path=path+name)
                 logger.info(' Successfully downloaded this paper named as %s (Identifier: %s) !' % (name, identifier))
             else:
-                self._save(data=data['pdf'], path=path + name)
+                self._save(data=data['pdf'], path=path+name)
                 logger.info(' Successfully downloaded this paper named as %s (Identifier: %s) !' % (name, identifier))
 
     def fetch(self, identifier):
@@ -249,6 +262,17 @@ class SciHub(object):
         """
         Return html soup.
         """
+        webcon = str(BeautifulSoup(html, 'html.parser'))
+        START_title = webcon.find("<title>Sci-Hub |")
+        if START_title > 0:
+            webcon_cut = webcon[START_title:]
+            END_title = webcon_cut.find("</title>")
+            self.title = webcon[START_title+len("<title>Sci-Hub | "):START_title+END_title]
+            if ',' in self.title:
+                loca = self.title.find(',')
+                self.title = self.title[:loca]
+        else:
+            self.title = None
         return BeautifulSoup(html, 'html.parser')
 
     def _generate_name(self, res):
