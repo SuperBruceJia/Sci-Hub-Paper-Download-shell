@@ -59,10 +59,22 @@ So, I used Sci-Hub.py and used shell to download the papers. It is fast and conv
 3. Download a Paper or Papers
     
     ```shell
+    sci paper_link
+    ```
+    
+    For example:
+    
+    ```shell
     sci https://ieeexplore.ieee.org/document/9253626
     ```
     
     or 
+    
+    ```shell
+    sci paper_1_link paper_2_link paper_3_link ...
+    ```
+    
+    For example:
     
     ```shell
     sci https://ieeexplore.ieee.org/document/9253626 https://ieeexplore.ieee.org/document/9270005 https://ieeexplore.ieee.org/document/9256286
