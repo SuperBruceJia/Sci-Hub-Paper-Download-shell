@@ -71,7 +71,7 @@ So, I used Sci-Hub.py and used shell to download the papers. It is fast and conv
     or 
     
     ```shell
-    sci paper_1_link paper_2_link paper_3_link ...
+    sci paper_1_link paper_2_link paper_3_link etc.
     ```
     
     For example:
