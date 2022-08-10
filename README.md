@@ -2,13 +2,6 @@
 
 This is an easy-to-use and convenient shell command to download papers `FOR FREE` from `Sci-Hub` (Cheers)!
 
-## Announcement
-
-I really don't like to download papers by paying some money to publishers.
-Alternatively, I prefer to download them through [Sci-Hub](https://sci-hub.st/). And I highly respect [Alexandra Elbakyan](https://en.wikipedia.org/wiki/Alexandra_Elbakyan).
-But, u know, it wasted me a lot of time to open the [Sci-Hub](https://sci-hub.st/) Website and pasted the paper links one by one.
-So, I used Sci-Hub.py and used shell to download the papers. It is fast and convenient, and I love it!
-
 ## Tutorial
 
 1. Install the python packages
@@ -86,4 +79,11 @@ So, I used Sci-Hub.py and used shell to download the papers. It is fast and conv
 
     (3). If u wanna change the download place, please edit [this file](https://github.com/SuperBruceJia/Sci-Hub-Paper-Download-shell/blob/main/sci-downloads.py) w.r.t. line 10.
 
-Enjoy your journey! And, go back to Research Work!
+## Acknowledgment
+
+I really don't like to download papers by paying some money to publishers.
+Alternatively, I prefer to download them through [Sci-Hub](https://sci-hub.st/). And I highly respect [Alexandra Elbakyan](https://en.wikipedia.org/wiki/Alexandra_Elbakyan).
+But, u know, it wasted me a lot of time to open the [Sci-Hub](https://sci-hub.st/) Website and pasted the paper links one by one.
+So, I used Sci-Hub.py and used shell to download the papers. It is fast and convenient, and I love it!
+
+Enjoy your journey! And, go back to research!
