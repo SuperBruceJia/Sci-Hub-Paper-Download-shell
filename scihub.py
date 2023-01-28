@@ -17,7 +17,7 @@ from retrying import retry
 
 # log config
 logging.basicConfig()
-logger = logging.getLogger(' (From Sci-Hub)')
+logger = logging.getLogger('\n Start to Download Papers From Sci-Hub')
 logger.setLevel(logging.DEBUG)
 
 # Disable all kinds of warnings
@@ -73,6 +73,7 @@ class SciHub(object):
         for a in s.find_all('a', href=True):
             if 'sci-hub.' in a['href']:
                 urls.append(a['href'])
+
         return urls
 
     def set_proxy(self, proxy):
@@ -86,11 +87,13 @@ class SciHub(object):
             }
 
     def _change_base_url(self):
-        if not self.available_base_url_list:
-            raise Exception('Ran out of valid sci-hub urls')
-        del self.available_base_url_list[0]
-        self.base_url = self.available_base_url_list[0] + '/'
-        logger.info(" Changing to {}".format(self.available_base_url_list[0]))
+        while len(self.available_base_url_list) != 0:
+            if not self.available_base_url_list:
+                raise Exception('Ran out of valid sci-hub urls!')
+
+            del self.available_base_url_list[0]
+            self.base_url = self.available_base_url_list[0] + '/'
+            logger.info(" Changing to {}".format(self.available_base_url_list[0]))
 
     def search(self, query, limit=20, download=False):
         """
@@ -181,10 +184,12 @@ class SciHub(object):
 
                 # Save the file
                 self._save(data=data['pdf'], path=path+name)
-                logger.info(' Successfully downloaded this paper named as %s (Identifier: %s) !' % (name, identifier))
+                logger.info('\n Successfully downloaded this paper named as %s \n Identifier: %s!'
+                            % (name, identifier))
             else:
                 self._save(data=data['pdf'], path=path+name)
-                logger.info(' Successfully downloaded this paper named as %s (Identifier: %s) !' % (name, identifier))
+                logger.info('\n Successfully downloaded this paper named as %s \n Identifier: %s!'
+                            % (name, identifier))
 
     def fetch(self, identifier):
         """
