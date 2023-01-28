@@ -184,11 +184,11 @@ class SciHub(object):
 
                 # Save the file
                 self._save(data=data['pdf'], path=path+name)
-                logger.info('\n Successfully downloaded this paper named as %s \n Identifier: %s!'
+                logger.info('\n Successfully downloaded this paper named as %s \n Identifier: %s'
                             % (name, identifier))
             else:
                 self._save(data=data['pdf'], path=path+name)
-                logger.info('\n Successfully downloaded this paper named as %s \n Identifier: %s!'
+                logger.info('\n Successfully downloaded this paper named as %s \n Identifier: %s'
                             % (name, identifier))
 
     def fetch(self, identifier):
